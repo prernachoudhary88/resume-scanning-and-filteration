@@ -21,18 +21,20 @@ export default function ResetPasswordPage() {
   return (
     <div className="flex h-screen">
       {/* Left Image Section */}
-      <div className="w-3/4 relative">
+      <div className="w-[80%] relative">
         <Image
           src="/images/login.png"
           alt="Background"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: 'cover' }}
         />
       </div>
 
       {/* Right Form Section */}
-      <div className="w-1/2 flex flex-col justify-center items-center p-8">
+      <div className="w-1/2 flex flex-col justify-center items-center p-8 relative">
+        <div className="absolute text-center top-15 z-10">
         <Image src="/images/logo.png" alt="Mahindra Logo" width={150} height={50} />
+        </div>
 
         <form
           onSubmit={handleSubmit}

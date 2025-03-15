@@ -14,14 +14,16 @@ export default function SignupPage() {
         <Image
           src="/images/login.png"
           alt="Signup Background"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: 'cover' }}
         />
       </div>
 
       {/* Right Section for Signup */}
-      <div className="w-1/2 flex flex-col justify-center items-center p-8 space-y-4 mb-10">
+      <div className="w-1/2 flex flex-col justify-center items-center p-8 space-y-4 mb-10 relative">
+        <div className="absolute text-center top-15 z-10">
         <Image src="/images/logo.png" alt="Mahindra Logo" width={150} height={50} />
+        </div>
 
         <h2 className="text-2xl font-semibold mt-10">Create Account</h2>
 
@@ -96,8 +98,21 @@ export default function SignupPage() {
 
         <p className="text-xs text-gray-500">
           By signing up, you agree to Mahindra's{" "}
-          <Link href="/terms" className="underline">Terms of Use</Link> and{" "}
-          <Link href="/privacy" className="underline">Privacy Policy</Link>.
+          <a
+          href="https://www.mahindra.com/terms-of-use"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-red-500 transition underline">
+          Terms of Use
+        </a> and{" "}
+          <a
+          href="https://www.mahindra.com/privacy-policy"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-red-500 transition underline"
+        >
+          Privacy Policy
+        </a>.
         </p>
 
         <p>
