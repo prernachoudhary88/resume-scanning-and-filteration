@@ -49,7 +49,7 @@ export default function Hero() {
                         Access AI-filtered resumes and streamline hiring. Discover top talent that aligns with Mahindra’s vision and growth.
                     </p>
                     <button className="mt-5 bg-gray-800 text-white px-5 py-2 rounded-lg self-start hover:scale-105 transition-transform duration-300">
-                        <a href="/login">Browse Resumes</a>
+                        <a href="/resume-filter">Browse Resumes</a>
                     </button>
                 </div>
             </div>

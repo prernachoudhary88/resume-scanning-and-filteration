@@ -3,11 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa"; // Profile icon
-import { usePathname } from "next/navigation"; // For Next.js routing
 import { useState, useRef, useEffect } from "react"; // For managing dropdown state and click outside logic
 
 export default function UploadNavbar() {
-  const pathname = usePathname(); // Get the current route
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown state
   const dropdownRef = useRef<HTMLDivElement>(null); // Ref for the dropdown
 
@@ -28,35 +26,13 @@ export default function UploadNavbar() {
     };
   }, []);
 
-  // Navbar links with their paths
-  const navLinks = [
-    { name: "Dashboard", path: "/upload-resume" },
-    { name: "Already Applied", path: "/already-applied" },
-    { name: "Contact Us", path: "https://www.mahindra.com/contact-us" }, // Updated to external URL
-  ];
-
+ 
   return (
-    <nav className="flex justify-between items-center p-6 shadow-md bg-white relative">
+    <nav className="flex justify-between items-center p-4 bg-white relative">
       {/* Left: Logo */}
       <Link href="/">
         <Image src="/images/logo.png" alt="Logo" width={150} height={50} />
       </Link>
-
-      {/* Center: Navigation Links */}
-      <div className="space-x-10 text-gray-900 font-bold">
-        {navLinks.map((link) => (
-          <Link
-            key={link.name}
-            href={link.path}
-            className={`hover:text-red-500 transition-colors ${
-              pathname === link.path ? "text-red-500" : "text-gray-900"
-            }`}
-            target={link.path.startsWith("http") ? "_blank" : "_self"} // Open external links in a new tab
-          >
-            {link.name}
-          </Link>
-        ))}
-      </div>
 
       {/* Right: Profile Icon with Dropdown */}
       <div className="relative" ref={dropdownRef}>

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-100 text-center text-sm">
@@ -46,12 +48,12 @@ export default function Footer() {
           Careers
         </a>
         <span>|</span>
-        <a
+        <Link
           href="/login"
           className="hover:text-red-500 transition"
         >
           Sign In / Sign Up
-        </a>
+        </Link>
       </div>
 
       {/* Social Media Links */}
