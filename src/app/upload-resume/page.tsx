@@ -7,10 +7,10 @@ import UploadNavbar from "./components/UploadNavbar";
 import Link from "next/link"; // Import Link from next/link
 
 const jobListings = [
-  { id: 1, title: "Software Engineer Intern", location: "Remote", deadline: "16 Feb 2026", salary: "20,000 monthly" },
-  { id: 2, title: "Senior Web Developer", location: "Remote", deadline: "27 Feb 2026", salary: "20,000 monthly" },
-  { id: 3, title: "Data Scientist", location: "Remote", deadline: "1 Feb 2026", salary: "20,000 monthly" },
-  { id: 4, title: "Specialist Programmer", location: "Remote", deadline: "23 Feb 2026", salary: "20,000 monthly" },
+  { id: 1, company: "Tech Mahindra", title: "Software Engineer Intern", location: "Remote", deadline: "16 Feb 2026", salary: "20,000 monthly", shortdescription: "Work on real-world projects and gain industry experience." },
+  { id: 2, company: "Tech Mahindra", title: "Senior Web Developer", location: "Remote", deadline: "27 Feb 2026", salary: "20,000 monthly", shortdescription: "Work on real-world projects and gain industry experience." },
+  { id: 3, company: "Tech Mahindra", title: "Data Scientist", location: "Remote", deadline: "1 Feb 2026", salary: "20,000 monthly", shortdescription: "Work on real-world projects and gain industry experience." },
+  { id: 4, company: "Tech Mahindra", title: "Specialist Programmer", location: "Remote", deadline: "23 Feb 2026", salary: "20,000 monthly", shortdescription: "Work on real-world projects and gain industry experience." },
 ];
 
 export default function UploadResumePage() {
@@ -53,11 +53,11 @@ export default function UploadResumePage() {
             {jobListings.map((job) => (
               <div key={job.id} className="bg-white shadow-lg rounded-xl p-6 border border-gray-200">
                 <h2 className="text-xl font-bold text-red-600 mb-2">{job.title}</h2>
-                <p className="text-gray-700 mb-1 text-sm font-semibold">Company: Tech Mahindra</p>
+                <p className="text-gray-700 mb-1 text-sm font-semibold">Company: {job.company}</p>
                 <p className="text-gray-700 mb-1 text-sm font-semibold">Location: {job.location}</p>
                 <p className="text-gray-700 mb-1 text-sm font-semibold">Deadline: {job.deadline}</p>
                 <p className="text-gray-700 mb-1 text-sm font-semibold">Stipend / Salary: {job.salary}</p>
-                <p className="text-gray-700 mb-2 text-sm font-semibold">Description: Work on real-world projects and gain industry experience.</p>
+                <p className="text-gray-700 mb-2 text-sm font-semibold">Description: {job.shortdescription}</p>
 
                 <div className="flex justify-between items-center mt-4">
                   {/* Updated "Details" button with Link */}

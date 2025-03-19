@@ -5,6 +5,8 @@ import Link from "next/link"; // For the back button
 import UploadNavbar from "../../upload-resume/components/UploadNavbar"; // Import the navbar
 import { FaClock, FaCalendarAlt, FaMoneyBillAlt, FaMapMarkerAlt, FaBriefcase, FaEnvelope, FaLinkedin, FaTwitter } from "react-icons/fa"; // Icons
 import { useEffect, useState } from "react"; // For loading state and API calls
+import ApplyForm from "@/app/upload-resume/components/ApplyForm";
+import SuccessModal from "@/app/upload-resume/components/SuccessModal";
 
 // Mock data for job details (replace with actual API call)
 const jobDetails = {
@@ -77,6 +79,29 @@ export default function JobDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [showApplyForm, setShowApplyForm] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<any>(null);
+
+  const openForm = (job: any) => {
+    setSelectedJob(job);
+    setShowApplyForm(true);
+  };
+
+  const closeForm = () => {
+    setShowApplyForm(false);
+    setSelectedJob(null);
+  };
+
+  const handleFormSubmit = () => {
+    setShowApplyForm(false); // Close the ApplyForm
+    setShowSuccessModal(true); // Show the SuccessModal
+  };
+
+  const closeSuccessModal = () => {
+    setShowSuccessModal(false); // Close the SuccessModal
+  };
+
   // Simulate fetching job details from an API
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -124,6 +149,7 @@ export default function JobDetailsPage() {
 
   return (
     <>
+    <div className={`transition-all duration-300 ${showApplyForm || showSuccessModal ? "opacity-30 pointer-events-none" : "opacity-100"}`}>
       {/* Navbar */}
       <UploadNavbar />
 
@@ -171,7 +197,7 @@ export default function JobDetailsPage() {
           </div>
 
           {/* Apply Button */}
-          <button className="bg-red-500 text-white px-10 py-2 rounded-lg shadow-md hover:bg-red-600 transition mb-8">
+          <button  onClick={() => openForm(job)} className="bg-red-500 text-white px-10 py-2 rounded-lg shadow-md hover:bg-red-600 transition mb-8">
             Apply
           </button>
 
@@ -246,6 +272,12 @@ export default function JobDetailsPage() {
           </div>
         </div>
       </div>
+      </div>
+      {/* Apply Form (Separate Component) */}
+            {showApplyForm && <ApplyForm job={selectedJob} onClose={closeForm} onSubmit={handleFormSubmit} />}
+      
+            {/* Success Modal (Separate Component) */}
+            {showSuccessModal && <SuccessModal onClose={closeSuccessModal} />}
     </>
   );
 }
