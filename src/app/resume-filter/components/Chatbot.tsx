@@ -13,10 +13,48 @@ export default function Chatbot() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  // Basic responses for common greetings and questions
+  const getBotResponse = (userInput: string) => {
+    const input = userInput.toLowerCase().trim();
+    
+    // Greetings
+    if (/^(hi|hello|hey|greetings|good morning|good afternoon|good evening)/i.test(input)) {
+      const greetings = ["Hello!", "Hi there!", "Hey! How can I help?", "Greetings!"];
+      return greetings[Math.floor(Math.random() * greetings.length)];
+    }
+    
+    // How are you
+    if (/how are you|how's it going|how do you do/i.test(input)) {
+      return "I'm just a chatbot, but I'm functioning well! How about you?";
+    }
+    
+    // Thanks
+    if (/thank|thanks|appreciate/i.test(input)) {
+      return "You're welcome! Is there anything else I can help with?";
+    }
+    
+    // Goodbye
+    if (/bye|goodbye|see you|later|farewell/i.test(input)) {
+      return "Goodbye! Have a great day!";
+    }
+    
+    // Default response if no match
+    return "I'm not sure how to respond to that. Could you ask me something else?";
+  };
+
   const handleSend = () => {
     if (!input.trim()) return;
-    setMessages([...messages, { sender: "user", text: input }]);
+    
+    // Add user message
+    const newMessages = [...messages, { sender: "user", text: input }];
+    setMessages(newMessages);
     setInput("");
+    
+    // Simulate typing delay for bot response
+    setTimeout(() => {
+      const botResponse = getBotResponse(input);
+      setMessages([...newMessages, { sender: "chatbot", text: botResponse }]);
+    }, 500);
   };
 
   // Auto-scroll to bottom when new messages are added
