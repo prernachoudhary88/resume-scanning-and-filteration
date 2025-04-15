@@ -1,136 +1,64 @@
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+'use client';
 
-// Define the type for filter categories
-type FilterCategory = "position" | "skills" | "experience" | "location";
+import { useState } from 'react';
 
-// Define the type for the selected filters state
-type SelectedFilters = {
-  position: string[];
-  skills: string[];
-  experience: string[];
-  location: string[];
-};
+export default function Filters({ prompt }) {
+  const [resumeFile, setResumeFile] = useState(null);
+  const [rating, setRating] = useState(null);
+  const [feedback, setFeedback] = useState('');
 
-export default function Filters() {
-  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({
-    position: [],
-    skills: [],
-    experience: [],
-    location: [],
-  });
+  const handleUpload = async () => {
+    if (!resumeFile || !prompt) {
+      alert('Please provide both a resume and a job role.');
+      return;
+    }
 
-  const router = useRouter();
+    const formData = new FormData();
+    formData.append('resume', resumeFile);
+    formData.append('role', prompt.toLowerCase());
 
-  // Handle selecting/unselecting filters
-  const handleFilterClick = (category: FilterCategory, value: string) => {
-    setSelectedFilters((prev) => ({
-      ...prev,
-      [category]: prev[category].includes(value)
-        ? prev[category].filter((item) => item !== value)
-        : [...prev[category], value],
-    }));
-  };
+    try {
+      const response = await fetch('http://127.0.0.1:5000/rate-resume', {
+        method: 'POST',
+        body: formData,
+      });
 
-  // Handle Search button click
-  const handleSearch = () => {
-    const query = new URLSearchParams();
-    Object.entries(selectedFilters).forEach(([key, values]) => {
-      if (values.length > 0) {
-        query.append(key, values.join(","));
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text);
       }
-    });
-    router.push(`/resume-results?${query.toString()}`);
+
+      const result = await response.json();
+      setRating(result.rating);
+      setFeedback(result.feedback);
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong while rating the resume.');
+    }
   };
 
   return (
-    <div className="sticky left-0 h-screen p-5 bg-gray-50 overflow-y-auto border-r border-gray-200">
-      <h2 className="text-lg font-bold mb-4 text-gray-800">Apply Filters</h2>
-      <hr className="mb-4 border-gray-300" />
-      <div className="space-y-6">
-        <FilterSection
-          title="Position Applied"
-          category="position"
-          options={["Developer", "Designer", "Manager"]}
-          selectedFilters={selectedFilters}
-          handleFilterClick={handleFilterClick}
-        />
+    <div>
+      <h2 className="text-lg font-bold text-red-700 mb-2">Upload Resume</h2>
+      <input
+        type="file"
+        accept=".pdf,.docx"
+        onChange={(e) => setResumeFile(e.target.files[0])}
+        className="mb-4 block w-full border border-red-400 rounded px-3 py-2"
+      />
+      <button
+        onClick={handleUpload}
+        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded w-full"
+      >
+        Upload and Rate
+      </button>
 
-        <FilterSection
-          title="Skills"
-          category="skills"
-          options={["React", "JavaScript", "Node.js"]}
-          selectedFilters={selectedFilters}
-          handleFilterClick={handleFilterClick}
-        />
-
-        <FilterSection
-          title="Experience"
-          category="experience"
-          options={["1 year", "2 years", "3+ years"]}
-          selectedFilters={selectedFilters}
-          handleFilterClick={handleFilterClick}
-        />
-
-        <FilterSection
-          title="Location"
-          category="location"
-          options={["Mumbai", "Chandigarh", "Remote"]}
-          selectedFilters={selectedFilters}
-          handleFilterClick={handleFilterClick}
-        />
-
-        <div className="text-center mt-6">
-          <button
-            className="w-full p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition shadow-md"
-            onClick={handleSearch}
-          >
-            Search Resume
-          </button>
+      {rating && (
+        <div className="mt-4 text-red-900">
+          <p className="font-semibold">Rating: {rating}/10</p>
+          <p className="text-sm mt-2 whitespace-pre-line">{feedback}</p>
         </div>
-      </div>
+      )}
     </div>
   );
 }
-
-// Reusable Filter Section Component
-type FilterSectionProps = {
-  title: string;
-  category: FilterCategory;
-  options: string[];
-  selectedFilters: SelectedFilters;
-  handleFilterClick: (category: FilterCategory, value: string) => void;
-};
-
-const FilterSection = ({
-  title,
-  category,
-  options,
-  selectedFilters,
-  handleFilterClick,
-}: FilterSectionProps) => {
-  return (
-    <div>
-      <h3 className="text-sm font-semibold text-gray-700 mb-2">{title}</h3>
-      <div className="flex flex-wrap gap-2">
-        {options.map((option) => (
-          <button
-            key={option}
-            onClick={() => handleFilterClick(category, option)}
-            className={`flex items-center px-2.5 py-1 text-sm ${
-              selectedFilters[category].includes(option)
-                ? "bg-gray-500 text-white"
-                : "bg-white text-gray-700"
-            } border border-gray-300 rounded-lg hover:bg-gray-100 transition shadow-sm`}
-          >
-            <span className="mr-1">
-              {selectedFilters[category].includes(option) ? "✓" : "+"}
-            </span>{" "}
-            {option}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};

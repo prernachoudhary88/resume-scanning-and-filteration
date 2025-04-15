@@ -7,10 +7,26 @@ import Link from 'next/link';
 export default function ForgetPasswordPage() {
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle password reset request logic here (API call)
-    console.log('Password reset requested for:', email);
+
+    try {
+      const response = await fetch('/api/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+      console.log(data.message);
+
+      alert('If the email exists, a password reset link has been sent.');
+    } catch (error) {
+      console.error('Error sending reset email:', error);
+      alert('Something went wrong. Please try again later.');
+    }
   };
 
   return (
@@ -25,11 +41,10 @@ export default function ForgetPasswordPage() {
         />
       </div>
 
-
       {/* Right Form Section */}
       <div className="w-1/2 flex flex-col justify-center items-center p-8 relative">
-      <div className="absolute text-center top-15 z-10">
-        <Image src="/images/logo.png" alt="Mahindra Logo" width={150} height={50} />
+        <div className="absolute text-center top-15 z-10">
+          <Image src="/images/logo.png" alt="Mahindra Logo" width={150} height={50} />
         </div>
 
         <form

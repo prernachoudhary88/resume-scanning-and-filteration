@@ -1,0 +1,26 @@
+role,skills
+software developer,python;javascript;react;nodejs;git;docker;html;css;sql;typescript;ASP.Net
+data scientist,python;r;sql;machine learning;tensorflow;pandas;numpy;scikit-learn;matplotlib;deep learning
+data analyst,excel;sql;power bi;tableau;python;statistics;r;data visualization;data cleaning;reporting
+ui/ux designer,figma;adobe xd;photoshop;illustrator;user research;wireframing;prototyping;usability testing;css;html
+frontend developer,react;javascript;html;css;typescript;redux;next.js;webpack;tailwind;vite
+backend developer,nodejs;express;python;django;mongodb;sql;postgresql;rest api;jwt;authentication
+devops engineer,jenkins;docker;kubernetes;aws;terraform;linux;gitlab ci;ansible;monitoring;grafana
+machine learning engineer,python;scikit-learn;tensorflow;pytorch;machine learning;data preprocessing;model evaluation;hyperparameter tuning;nlp;cv
+network engineer,tcp/ip;dns;vpn;firewall;network security;cisco;routers;switches;wireshark;load balancing
+cloud engineer,aws;azure;gcp;cloudformation;terraform;docker;kubernetes;linux;ci/cd;serverless
+mobile app developer,android;kotlin;java;ios;swift;flutter;react native;firebase;rest api;ui design
+qa engineer,selenium;manual testing;automation testing;jira;test cases;bug tracking;api testing;postman;jmeter;regression testing
+business analyst,sql;excel;tableau;requirement gathering;stakeholder communication;data analysis;agile;jira;business process;modeling
+product manager,roadmap;user stories;agile;scrum;stakeholder management;market research;product lifecycle;data-driven;jira;analytics
+ai engineer,deep learning;nlp;computer vision;tensorflow;pytorch;transformers;python;data engineering;model deployment;openCV
+cybersecurity analyst,firewall;threat detection;vulnerability assessment;network security;siem;ids;penetration testing;ethical hacking;risk management;encryption
+blockchain developer,solidity;ethereum;smart contracts;web3;cryptography;nodejs;truffle;ganache;ipfs;dapps
+full stack developer,javascript;react;nodejs;python;html;css;sql;mongodb;docker;api integration
+game developer,unity;c#;blender;animation;physics engine;shader programming;game design;level design;multiplayer;ai
+content writer,seo;copywriting;editing;wordpress;research;grammar;storytelling;technical writing;blogging;content strategy
+digital marketer,seo;sem;google analytics;facebook ads;instagram;email marketing;content marketing;wordpress;ppc;branding
+graphic designer,photoshop;illustrator;indesign;figma;branding;layout;typography;adobe xd;creativity;color theory
+hr manager,recruitment;onboarding;performance management;hr policies;compliance;employee engagement;hr analytics;interviewing;payroll;training
+sales executive,lead generation;crm;negotiation;cold calling;customer relationship;pipeline management;email outreach;presentation;target achievement;salesforce
+technical support specialist,troubleshooting;helpdesk;remote support;ticketing system;windows;networking;customer service;vpn;hardware;documentation
