@@ -1,152 +1,48 @@
-// app/components/Chatbot.js
-"use client";
-import { useState, useRef, useEffect } from "react";
-import { FiSend, FiCopy } from "react-icons/fi";
-import EmployeeNavbar from "./EmployeeNavbar";
-import Image from "next/image";
+'use client';
 
-export default function Chatbot() {
-  const [messages, setMessages] = useState([
-    { sender: "chatbot", text: "Hey there! How can I help you today?" },
-  ]);
-  const [input, setInput] = useState("");
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+const jobRoles = [
+  'software developer',
+  'data scientist',
+  'data analyst',
+  'ui/ux designer',
+  'frontend developer',
+  'backend developer',
+  'devops engineer',
+  'machine learning engineer',
+  'network engineer',
+  'cloud engineer',
+  'mobile app developer',
+  'qa engineer',
+  'business analyst',
+  'product manager',
+  'ai engineer',
+  'cybersecurity analyst',
+  'blockchain developer',
+  'full stack developer',
+  'game developer',
+  'content writer',
+  'digital marketer',
+  'graphic designer',
+  'hr manager',
+  'sales executive',
+  'technical support specialist'
+];
 
-  // Basic responses for common greetings and questions
-  const getBotResponse = (userInput: string) => {
-    const input = userInput.toLowerCase().trim();
-    
-    // Greetings
-    if (/^(hi|hello|hey|greetings|good morning|good afternoon|good evening)/i.test(input)) {
-      const greetings = ["Hello!", "Hi there!", "Hey! How can I help?", "Greetings!"];
-      return greetings[Math.floor(Math.random() * greetings.length)];
-    }
-    
-    // How are you
-    if (/how are you|how's it going|how do you do/i.test(input)) {
-      return "I'm just a chatbot, but I'm functioning well! How about you?";
-    }
-    
-    // Thanks
-    if (/thank|thanks|appreciate/i.test(input)) {
-      return "You're welcome! Is there anything else I can help with?";
-    }
-    
-    // Goodbye
-    if (/bye|goodbye|see you|later|farewell/i.test(input)) {
-      return "Goodbye! Have a great day!";
-    }
-    
-    // Default response if no match
-    return "I'm not sure how to respond to that. Could you ask me something else?";
-  };
-
-  const handleSend = () => {
-    if (!input.trim()) return;
-    
-    // Add user message
-    const newMessages = [...messages, { sender: "user", text: input }];
-    setMessages(newMessages);
-    setInput("");
-    
-    // Simulate typing delay for bot response
-    setTimeout(() => {
-      const botResponse = getBotResponse(input);
-      setMessages([...newMessages, { sender: "chatbot", text: botResponse }]);
-    }, 500);
-  };
-
-  // Auto-scroll to bottom when new messages are added
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  // Auto-resize textarea based on content
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto"; // Reset height
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set height based on content
-    }
-  }, [input]);
-
-  // Copy chatbot reply to clipboard
-  const handleCopy = (text: string) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        alert("Copied to clipboard!"); // Optional: Show a success message
-      })
-      .catch(() => {
-        alert("Failed to copy."); // Optional: Show an error message
-      });
-  };
-
+export default function JobDropdown({ onPromptChange }) {
   return (
-    <div className="h-full flex flex-col bg-white">
-      {/* Fixed Navbar */}
-      <div className="sticky top-0 z-10 bg-white">
-        <EmployeeNavbar />
-      </div>
-
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto pl-20 pr-25 py-4 space-y-4">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`flex flex-col space-y-2 ${
-              msg.sender === "user" ? "items-end" : "items-start"
-            }`}
-          >
-            <div
-              className={`text-md px-5 py-3 rounded-4xl max-w-[80%] relative ${
-                msg.sender === "user"
-                  ? "bg-gray-100 text-gray-700" // Light gray background for user messages
-                  : "text-gray-700" // No background for chatbot messages
-              }`}
-            >
-              {msg.text}
-              {msg.sender === "chatbot" && (
-                <button
-                  onClick={() => handleCopy(msg.text)}
-                  className="absolute -top-2 -right-2 p-1 bg-gray-200 rounded-full hover:bg-gray-300 transition"
-                  title="Copy"
-                >
-                  <FiCopy size={14} className="text-gray-600" />
-                </button>
-              )}
-            </div>
-          </div>
+    <div>
+      <h2 className="text-xl font-semibold mb-4 text-red-700">Select Job Role</h2>
+      <select
+        onChange={(e) => onPromptChange(e.target.value)}
+        className="w-full border border-red-400 bg-red-50 text-red-800 rounded px-4 py-2"
+      >
+        <option value="">-- Choose a Role --</option>
+        {jobRoles.map((role, index) => (
+          <option key={index} value={role}>
+            {role.charAt(0).toUpperCase() + role.slice(1)}
+          </option>
         ))}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Fixed Input Field */}
-      <div className="sticky bottom-0 bg-white px-20 pb-7">
-        <div className="flex items-end gap-2 rounded-3xl p-5 shadow-lg border border-gray-300">
-          <textarea
-            ref={textareaRef}
-            placeholder="Type your message..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault(); // Prevent new line on Enter
-                handleSend();
-              }
-            }}
-            className="w-full p-2 bg-transparent focus:outline-none placeholder-gray-400 resize-none overflow-y-auto max-h-40"
-            rows={1}
-            style={{ maxHeight: "160px" }} // 5-6 lines max height
-          />
-          <button
-            onClick={handleSend}
-            className="rounded-full transition-transform transform hover:scale-105"
-            >
-            <Image src="/icons/up-arrow.png" alt="Send⬆" width={50} height={50} />
-            </button>
-        </div>
-      </div>
+      </select>
     </div>
   );
 }

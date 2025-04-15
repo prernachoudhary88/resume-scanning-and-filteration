@@ -1,11 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function LoginPage() {
+export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -13,7 +12,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    const res = await fetch("/api/login", {
+    const res = await fetch("/api/admin-login", {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -22,8 +21,8 @@ export default function LoginPage() {
     const data = await res.json();
 
     if (res.ok) {
-      localStorage.setItem("userEmail", email); // ✅ Save session to localStorage
-      router.push("/upload-resume");
+      localStorage.setItem("adminEmail", email); // Store session for admin
+      router.push("/admin-add-job");
     } else {
       setError(data.message || "Login failed. Please try again.");
     }
@@ -46,12 +45,13 @@ export default function LoginPage() {
         <div className='absolute text-center top-15 z-10'>
           <Image src="/images/logo.png" alt="Mahindra Logo" width={150} height={50} />
         </div>
-        <h2 className="text-2xl font-semibold mt-10">Log in with Email</h2>
+
+        <h2 className="text-2xl font-semibold mt-10">Admin Login</h2>
 
         <div className="space-y-4 w-full max-w-sm border border-gray-300 pt-10 p-5 rounded">
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Admin Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             className="w-full border border-gray-300 p-2 rounded"
@@ -70,44 +70,7 @@ export default function LoginPage() {
             Log in
           </button>
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          <Link
-            href="/forget-password"
-            className="text-sm text-center underline cursor-pointer hover:text-blue-600 block"
-          >
-            Forgot password?
-          </Link>
         </div>
-
-        <p className="text-xs text-gray-500">
-          By continuing, you agree to Mahindra's{" "}
-          <a
-            href="https://www.mahindra.com/terms-of-use"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-red-500 transition"
-          >
-            Terms of Use
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://www.mahindra.com/privacy-policy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-red-500 transition"
-          >
-            Privacy Policy
-          </a>
-        </p>
-
-        <p>
-          Don’t have an account?{" "}
-          <Link
-            href="/signup"
-            className="text-red-500 font-semibold hover:text-red-600 hover:underline"
-          >
-            Sign up
-          </Link>
-        </p>
       </div>
     </div>
   );
